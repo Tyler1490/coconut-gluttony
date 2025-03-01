@@ -1,0 +1,15 @@
+#可以使用 __setProperty 函数动态设置属性
+${__setProperty(property.name, value)}
+# 在 BeanShell PostProcessor设置属性
+props.put("property.name", "value");
+# 通过「用户定义的变量」设置属性
+添加 用户定义的变量（User Defined Variables）：
+右键测试计划 → 添加（Add） → 配置元件（Config Element） → 用户定义的变量。
+输入变量名和值。
+注意：用户定义的变量是局部变量（非属性）
+# 验证属性是否设置成功
+## 使用 Debug Sampler：添加调试取样器，查看 ${__property(property.name)} 的值；
+## 查看结果树：在请求详情中检查属性是否被正确引用；
+## 通过 ${__P(property.name)} 简写形式引用属性，${__P(property.name)}
+
+
