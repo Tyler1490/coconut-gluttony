@@ -1,4 +1,4 @@
-#可以使用 __setProperty 函数动态设置属性
+# 可以使用 __setProperty 函数动态设置属性
 ${__setProperty(property.name, value)}
 # 在 BeanShell PostProcessor设置属性
 props.put("property.name", "value");
