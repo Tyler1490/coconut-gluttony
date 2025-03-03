@@ -1,0 +1,70 @@
+### 1. 构造上传文件请求
+上传文件通常使用`POST`请求方式，且需携带文件数据。基本步骤如下：
+ - **以二进制方式打开文件**：通过`open`函数以`'rb'`（二进制只读）模式打开要上传的文件。
+ - **构造`files`参数**：`files`是一个字典，键通常为接口定义的接收文件参数名（类似表单中`input`标签的`name`属性值），值可以有多种形式，常见如下：
+    - **简单形式**：键值对为`{'键': open('文件路径', 'rb')}` ，例如：
+```python
+url = 'http://example.com/upload'
+files = {'file': open('test.txt', 'rb')} 
+response = requests.post(url, files=files) 
+```
+    - **详细形式（指定文件名和文件类型）**：当需要明确指定上传后的文件名，以及文件的MIME类型时，值可以是一个元组`('自定义文件名', 文件对象, '文件MIME类型')` ，例如：
+```python
+url = 'http://httpbin.org/post' 
+files = {
+    'file': ('new_name.jpg', open('../file/test.jpg', 'rb'), 'image/jpeg')
+} 
+response = requests.post(url, files=files) 
+```
+ - **发送请求**：使用`requests.post()`方法发送请求，将`files`参数传入，例如：
+```python
+response = requests.post(url, files=files)
+```
+
+### 2. 携带其他参数
+除了文件数据外，很多情况下还需携带其他参数，如普通表单数据、请求头等：
+ - **普通表单数据**：如果接口还需要其他普通的表单数据，可以通过`data`参数传入，例如：
+```python
+data = {'username': 'testuser', 'password': '123456'} 
+response = requests.post(url, files=files, data=data) 
+```
+ - **JSON数据**：若接口期望接收JSON格式的数据，可通过`json`参数传入，例如：
+```python
+json_data = {'key': 'value'} 
+response = requests.post(url, files=files, json=json_data) 
+```
+ - **请求头**：可以通过`headers`参数自定义请求头，例如：
+```python
+headers = {'User-Agent': 'MyApp/1.0'} 
+response = requests.post(url, files=files, headers=headers) 
+```
+
+### 3. 处理响应
+发送请求后，可根据响应状态码和内容判断上传是否成功：
+```python
+if response.status_code == 200: 
+    print('文件上传成功') 
+    print('响应内容:', response.text)
+else: 
+    print('文件上传失败，状态码:', response.status_code) 
+    print('响应内容:', response.text) 
+```
+
+### 4. 异常处理
+为确保测试稳定，应添加异常处理机制：
+```python
+try: 
+    response = requests.post(url, files=files) 
+except requests.exceptions.RequestException as e: 
+    print(f'请求出错：{e}') 
+```
+
+### 5. 多文件上传
+若要上传多个文件，只需在`files`字典中增加键值对即可，例如：
+```python
+files = {
+    'file1': open('test1.txt', 'rb'), 
+    'file2': open('test2.txt', 'rb')
+} 
+response = requests.post(url, files=files) 
+``` 
