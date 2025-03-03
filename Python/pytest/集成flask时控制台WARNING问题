@@ -1,0 +1,11 @@
+`WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.` 是Flask提示你当前运行的是开发服务器，不适合在生产环境中使用 。处理方法如下：
+
+### 开发环境（不在意该警告的情况）
+如果只是在开发环境中测试应用，这个警告可以忽略。因为开发服务器方便调试，有代码热重载等功能。若想去除该提示，可以在运行Flask应用时开启调试模式，将代码中的`app.run()`改为`app.run(debug=True)`，这样虽然还会有一些其他调试相关信息，但这个警告会消失。
+
+### 生产环境
+在生产环境部署时，应使用专业的WSGI（Web Server Gateway Interface）服务器，如Gunicorn、uWSGI等。以Gunicorn为例，安装它的命令是`pip install gunicorn` ，然后在命令行进入到Flask应用所在目录，使用类似下面的命令来启动应用：
+```bash
+gunicorn -w 4 -b 0.0.0.0:5000 testupdatload:app
+```
+其中，`-w 4`表示工作进程数量，`-b 0.0.0.0:5000`指定监听的地址和端口，`testupdatload:app`中，`testupdatload`是你的Python文件名（去掉`.py`后缀），`app`是Flask应用实例名 。使用这类服务器，就不会出现上述警告。 
