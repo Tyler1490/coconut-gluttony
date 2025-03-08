@@ -1,0 +1,12 @@
+allure用例标题竖行显示，这时因为右侧参数内容挤的。
+需要去掉默认显示的参数化。找到安装的第三方包 ：listener.py
+文件位置：Lib\site-packages\allure_pytest\listener.py （第三方包所在的LIb目录）
+把
+test_result.parameters.extend(
+     [Parameter(name=name, value=represent(value)) for name, value in params.items()])
+改成
+test_result.parameters.extend([])
+在运行之后就好了，如果改完之后还是显示参数，就把报告手动删除了，再次运行
+
+注意:试着改了后确实变为横的了，但是改完后用例丢了，调用两次函数还是只有一个title
+#版本过高需要降级版本allure-pytest==2.11.1（本地项目2.8.40）
