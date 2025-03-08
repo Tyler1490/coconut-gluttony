@@ -1,4 +1,4 @@
-allure用例标题竖行显示，这时因为右侧参数内容挤的。
+(2.13.5版本)allure用例标题竖行显示，这时因为右侧参数内容挤的。
 需要去掉默认显示的参数化。找到安装的第三方包 ：listener.py
 文件位置：Lib\site-packages\allure_pytest\listener.py （第三方包所在的LIb目录）
 把
